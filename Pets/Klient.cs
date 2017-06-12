@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 namespace Pets
 {
     public partial class Klient : Form
@@ -18,49 +17,22 @@ namespace Pets
             InitializeComponent();
         }
 
-        private void Klient_Load(object sender, EventArgs e)
-        {
-           
-        }
-
-        private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
+        
 
         private void UpdateTovar()
         {
             DataTableSQl Zay = new DataTableSQl("SELECT * FROM dbo.Tovar_v_magazine_i_na_sklade ");
             dataGridView1.DataSource = Zay.Table.DefaultView;
-            DataTableSQl imyafam = new DataTableSQl("select  Postavhik.ID_Postavhik, Postavhik.Nazvanie_organizacii from Postavhik ");
-            comboBoxpost.ValueMember = "ID_Postavhik";
-            comboBoxpost.DisplayMember = "Nazvanie_organizacii";
-            comboBoxpost.DataSource = imyafam.Table.DefaultView;
-
         }
         private void button1_Click(object sender, EventArgs e)
         {
             panelknp.Visible = true;
-            Dvijeniepan.Visible = false;
-            spisaniepan.Visible = false;
-            Menupan.Visible = false;
+            panel1.Visible = false;
+            panel1.Visible = false;
             panel3.Visible = true;
             panel3.Location = new Point(5, 6);
             tabControl2.Location = new Point(277, 6);
             tabControl2.Width = 813;
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if (textBoxskoll.Text == "") return;
-            {
-                dataGridView2.Rows.Add(IDTV, nametov, kol, cena + " руб.", edinica, summ);
-            }
-        }
-        public Image ByteArrayToImage(byte[] inputArray)
-        {
-            var memoryStream = new MemoryStream(inputArray);
-            return Image.FromStream(memoryStream);
         }
 
         string IDTV;
@@ -70,16 +42,23 @@ namespace Pets
         string cena;
         string summ;
 
+        public Image ByteArrayToImage(byte[] inputArray)
+        {
+            var memoryStream = new MemoryStream(inputArray);
+            return Image.FromStream(memoryStream);
+        }
+
+
         private void summa()
         {
-            if (textBoxskoll.Text == "") return;
+            if (textBoxkol.Text == "") return;
             {
 
-                kol = Convert.ToInt32(textBoxskoll.Text);
+                kol = Convert.ToInt32(textBoxkol.Text);
                 try
                 {
                     summ = (Convert.ToInt32(cena) * kol).ToString() + " руб.";
-                    textBoxsumm.Text = summ;
+                    labelsumma.Text = summ;
                 }
                 catch (Exception ex)
                 {
@@ -90,46 +69,51 @@ namespace Pets
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
+            DataTableSQl Tovr = new DataTableSQl("select Pict,ID_Tovar_v_magazine_i_na_sklade from Tovar_v_magazine_i_na_sklade");
             if (dataGridView1.SelectedCells.Count == 0) return;
             try
             {
-                Byte[] imagef = (Byte[])dataGridView1.CurrentRow.Cells[9].Value;
-                pictureBox1.BackgroundImage = ByteArrayToImage(imagef);
-                pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
-
+                string tt = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+                for (int i = 0; i < Tovr.Table.Rows.Count; i++)
+                {
+                    string picth = Tovr.Table.Rows[i][1].ToString();
+                    if (picth == tt)
+                    {
+                        Byte[] yy = (Byte[])Tovr.Table.Rows[i][0];
+                        Byte[] imagef = (Byte[])yy;
+                        pictureBox9.BackgroundImage = ByteArrayToImage(imagef);
+                        pictureBox9.BackgroundImageLayout = ImageLayout.Zoom;
+                    }
+                }
             }
             catch
             {
 
             }
-            nametov = dataGridView1.CurrentRow.Cells[2].Value.ToString();
-            cena = dataGridView1.CurrentRow.Cells[1].Value.ToString();
-            edinica = dataGridView1.CurrentRow.Cells[4].Value.ToString();
             IDTV = dataGridView1.CurrentRow.Cells[0].Value.ToString();
-            if (cena == "" || nametov == "") return;
+            nametov = dataGridView1.CurrentRow.Cells[1].Value.ToString();
+            cena = dataGridView1.CurrentRow.Cells[2].Value.ToString();
+            edinica = dataGridView1.CurrentRow.Cells[4].Value.ToString();
+            try
             {
-                int ind = cena.Length - 5;
-                cena = cena.Remove(ind);
-                textBoxTovar.Text = nametov;
-                summa();
+                if (cena == "" || nametov == "") return;
+                {
+
+                    int ind = cena.Length - 5;
+                    cena = cena.Remove(ind);
+                    textBoxname.Text = nametov;
+
+                    summa();
+                }
             }
-        }
-       
-        
+            catch
+            {
 
-        private void textBoxskoll_TextChanged(object sender, EventArgs e)
-        {
-            summa();
-        }
-
-        private void button16_Click(object sender, EventArgs e)
-        {
-          
+            }
         }
 
         private void dataGridView2_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-
             int sum = 0;
             string cenaa;
             for (int j = 0; j < dataGridView2.RowCount; j++)
@@ -145,53 +129,20 @@ namespace Pets
                     }
                 }
             }
-            label7.Text = sum.ToString();
+            label10.Text = sum.ToString() + " руб.";
         }
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button11_Click(object sender, EventArgs e)
-        {
-            tabControl2.Location = new Point(449, 6);
-            tabControl2.Width = 643;
-            panelknp.Visible = false;
-            spisaniepan.Visible = false;
-            Menupan.Visible = false;
-            panel3.Visible = false;
-            Dvijeniepan.Visible = true;
-            DataTableSQl Zay = new DataTableSQl("SELECT * FROM dbo.Tovar_v_magazine_i_na_sklade where Tovar_v_magazine_i_na_sklade.Jivotnoe_ID = 3 ");
-            dataGridView1.DataSource = Zay.Table.DefaultView;
-           
-        }
-
-        private void button18_Click(object sender, EventArgs e)
-        {
-            tabControl2.Location = new Point(449, 6);
-            tabControl2.Width = 643;
-            panelknp.Visible = false;
-            spisaniepan.Visible = false;
-            Menupan.Visible = false;
-            panel3.Visible = false;
-            Dvijeniepan.Visible = true;
-        
-            DataTableSQl Zay = new DataTableSQl("SELECT * FROM dbo.Tovar_v_magazine_i_na_sklade where Tovar_v_magazine_i_na_sklade.Jivotnoe_ID = 2 ");
-            dataGridView1.DataSource = Zay.Table.DefaultView;
-           
-        }
+       
 
         private void Klient_Load_1(object sender, EventArgs e)
         {
             panelknp.Visible = true;
-            Dvijeniepan.Visible = false;
-            spisaniepan.Visible = false;
-            Menupan.Visible = false;
+            panel1.Visible = false;
             panel3.Visible = true;
             panel3.Location = new Point(5, 6);
             tabControl2.Location = new Point(277, 6);
             tabControl2.Width = 813;
+            label5.Text = Gl.sotr;
                 
         }
 
@@ -216,62 +167,177 @@ namespace Pets
             Label l = sender as Label;
             l.Font = new Font("Times New Roman", 8, FontStyle.Regular);
         }
+        string tips;
+        string jiv;
         void zagr(Label name, string tip)
         {
             tabControl2.Location = new Point(449, 6);
             tabControl2.Width = 643;
             panelknp.Visible = false;
-            spisaniepan.Visible = false;
-            Menupan.Visible = false;
             panel3.Visible = false;
-            Dvijeniepan.Visible = true;
-            string jiv = name.Text;
-            DataTableSQl Zay = new DataTableSQl("select * from Tovar_v_magazine_i_na_sklade inner join Vid_tovara on Tovar_v_magazine_i_na_sklade.Vid_ID = Vid_tovara.ID_Vid inner join "
-            + " Tovar_Jivotn on Tovar_v_magazine_i_na_sklade.Jivotnoe_ID = Tovar_Jivotn.ID_Jivotnogo where Vid_tovara.Naimenovanie = '" + tip + "' and Tovar_Jivotn.Vid_Jivotnogo = '" + jiv + "'");
+            panel1.Visible = true;
+            jiv = name.Text;
+            DataTableSQl Zay = new DataTableSQl("select * from Prise where[Вид товара] = '" + tip + "' and Животное = '" + jiv + "'");
             dataGridView1.DataSource = Zay.Table.DefaultView;
         }
 
         private void label21_Click(object sender, EventArgs e)
         {
             Label lable = sender as Label;
-            string tips = lable.Text;
+            tips = lable.Text;
             zagr(Sobaki, tips);
 
         }
         private void labelkohki(object sender, EventArgs e)
         {
             Label lable = sender as Label;
-            string tips = lable.Text;
+            tips = lable.Text;
             zagr(kohk, tips);
 
         }
         private void labelrib(object sender, EventArgs e)
         {
             Label lable = sender as Label;
-            string tips = lable.Text;
+            tips = lable.Text;
             zagr(ribi, tips);
 
         }
         private void labelgrzn(object sender, EventArgs e)
         {
             Label lable = sender as Label;
-            string tips = lable.Text;
+            tips = lable.Text;
             zagr(grznn, tips);
 
         }
         private void labelhr(object sender, EventArgs e)
         {
+            
             Label lable = sender as Label;
-            string tips = lable.Text;
+            tips = lable.Text;
             zagr(horki, tips);
 
         }
         private void labelptic(object sender, EventArgs e)
         {
             Label lable = sender as Label;
-            string tips = lable.Text;
+            tips = lable.Text;
             zagr(ptici, tips);
 
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            if (textBoxkol.Text == "") return;
+            if (dataGridView2.Rows[0].Cells[0].Value == null)
+            {
+                dataGridView2.Rows.Add(IDTV, nametov, kol, cena + " руб.",edinica ,summ);
+            }
+            else
+            {
+                for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)
+                {
+                    if (IDTV == dataGridView2[0, i].Value.ToString())
+                    {
+                        MessageBox.Show("Такой товар уже есть");
+                        string dd = dataGridView2[0, i].Value.ToString();
+                        return;
+
+                    }
+                }
+                dataGridView2.Rows.Add(IDTV, nametov, kol, cena + " руб.", edinica, summ);
+            }
+        }
+
+        private void textBoxkol_TextChanged(object sender, EventArgs e)
+        {
+
+            summa();
+        }
+
+        void poisk(string text)
+        {
+            DataTableSQl poisk = new DataTableSQl("select * From   prise  where [Вид товара] = '"+tips+"' and Животное = '"+jiv+"' and concat([№],Наименование, Цена , [Кол-во], [ЕД.],Фирма, [Место хранение], Адрес) like  '%" + text + "%'");
+            dataGridView1.DataSource = poisk.Table.DefaultView;
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            poisk(textBox1.Text);
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int index = dataGridView2.CurrentRow.Index;
+                dataGridView2.Rows.RemoveAt(index);
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            DialogResult resolt = MessageBox.Show("Очистить таблицу?", "Сообщение", MessageBoxButtons.YesNo);
+            if (resolt == DialogResult.No) return;
+            {
+                dataGridView2.Rows.Clear();
+
+            }
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            DialogResult resolt = MessageBox.Show("Оформить заказ?", "Сообщение", MessageBoxButtons.YesNo);
+            if (resolt == DialogResult.No) return;
+            {
+                Pocupka poc = new Pocupka();
+                DataTable dataTable = new DataTable();
+                dataTable.Columns.Add(new DataColumn("№", System.Type.GetType("System.String")));
+                dataTable.Columns.Add(new DataColumn("Наименование", System.Type.GetType("System.String")));
+                dataTable.Columns.Add(new DataColumn("Кол-во", System.Type.GetType("System.String")));
+                dataTable.Columns.Add(new DataColumn("Цена", System.Type.GetType("System.String")));
+                dataTable.Columns.Add(new DataColumn("Единица", System.Type.GetType("System.String")));
+                dataTable.Columns.Add(new DataColumn("Сумма", System.Type.GetType("System.String")));
+                Gl.summ = label10.Text;
+                int count = 0;
+                for (int j = 0; j < dataGridView2.RowCount; j++)
+                {
+                    for (int i = 0; i < dataGridView2.ColumnCount; i++)
+                    {
+                        if (dataGridView2[i, j].Value != null)
+                        {
+                            count++;
+                            string tovrid = dataGridView2[0, j].Value.ToString();
+                            string name = dataGridView2[1, j].Value.ToString();
+                            string kol = dataGridView2[2, j].Value.ToString();
+                            string cena = dataGridView2[3, j].Value.ToString();
+                            string ed = dataGridView2[4, j].Value.ToString();
+                            string sum = dataGridView2[5, j].Value.ToString();
+                            DataRow rowToAdd = dataTable.NewRow();
+                            rowToAdd[0] = tovrid;
+                            rowToAdd[1] = name;
+                            rowToAdd[2] = kol;
+                            rowToAdd[3] = cena;
+                            rowToAdd[4] = ed;
+                            rowToAdd[5] = sum;
+                            dataTable.Rows.Add(rowToAdd);
+                            break;
+                        }
+                    }
+                }
+                Gl.Table = dataTable;
+                poc.ShowDialog();
+
+            }
+        }
+
+        private void Klient_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Glav gll = new Glav();
+            gll.Show();
         }
     }
 }

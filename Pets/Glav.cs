@@ -232,7 +232,7 @@ namespace Pets
             //    Registrate_Button.MouseDown += this.Registrate_Button_MouseDown;
             //    Registrate_Button.MouseUp += this.Registrate_Button_MouseUp;
             //    Registrate_Button.Enabled = false;
-            //    Registrate_Button.Click += Registrate_Button_Click;
+            Vhod_Button.Click += Button_Click;
             regis.Controls.Add(Vhod_Button);
             // Создание кнопки "Закрыть"
             Cancel_Button.Top = Vhod_Button.Top + Vhod_Button.Height + 15;
@@ -272,7 +272,61 @@ namespace Pets
             //-----------------------------------------------------
            
             }
-     
+        public void Button_Click(object sender, EventArgs e)
+        {
+            ConnectionClass ConCheck = new ConnectionClass();
+            ConCheck.Connection_Options();
+            SqlConnection connectionUser = new SqlConnection(ConCheck.ConnectString);
+            SqlCommand Select_USID = new SqlCommand("select concat(Imya,' ',Fam,' ',Oth)  from Sotrudnik where Parol='"+New_Password_Text.Text+ "' and [Login]='"+New_Login_Text.Text+ "'", connectionUser);
+            SqlCommand Select_ISA = new SqlCommand("select Otdel  from Sotrudnik where Parol='" + New_Password_Text.Text + "' and [Login]='" + New_Login_Text.Text + "'", connectionUser);
+
+            try
+            {
+                connectionUser.Open();
+               string USID = Select_USID.ExecuteScalar().ToString();
+               string ISA = Select_ISA.ExecuteScalar().ToString();
+
+
+                MessageBox.Show("Здравствуйте: " + USID);
+                   switch (ISA)
+                {
+                    case "Отдел закупок":
+                        Zakupka zakupka = new Zakupka();
+                        Gl.sotr = USID;
+                        zakupka.Show();
+                        this.Hide();
+                        Registration_Window.Close();
+                        connectionUser.Close();
+                        break;
+                    case "Складской отдел":
+                        Sklad Sklad = new Sklad();
+                        Gl.sotr = USID;
+                        Sklad.Show();
+                        this.Hide();
+                        Registration_Window.Close();
+                        connectionUser.Close();
+                        break;
+                    case "Отдел продаж":
+                        Klient Klient = new Klient();
+                        Gl.sotr = USID;
+                        Klient.Show();
+                        this.Hide();
+                        Registration_Window.Close();
+                        connectionUser.Close();
+                      
+                        break;
+                }
+                            
+
+                
+
+            }
+            catch
+            {
+                MessageBox.Show("Введите коректный логин и пароль");
+            }
+
+        }
 
         public void Registrate_Button_Click(object sender, EventArgs e)
         {

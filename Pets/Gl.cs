@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,5 +17,7 @@ namespace Pets
        public static string summ { get; set; }
        public static string poch { get; set; }
        public static string dataa { get; set; }
+        public static DataTable Table { get; set; }
+        public static string sotr { get; set; }
     }
 }

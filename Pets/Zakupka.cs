@@ -307,6 +307,7 @@ namespace Pets
 
         private void Zakupka_Load(object sender, EventArgs e)
         {
+            label5.Text = Gl.sotr;
             panel7.Visible = false;
             dataGridZakk.Location = new Point(10, 32);
             dataGridZakk.Height = 315;
@@ -330,23 +331,6 @@ namespace Pets
 
         private void button11_Click(object sender, EventArgs e)
         {
-            DataTableSQl Tovr = new DataTableSQl("select Tovar.Pict , Tovar.ID_Tovara from Tovar");
-
-            if (dataGridView1.SelectedCells.Count == 0) return;
-            {
-                string tt = dataGridView1.CurrentRow.Cells[0].Value.ToString();
-
-
-                for (int i = 0; i < Tovr.Table.Rows.Count; i++)
-                {
-                    string pict = Tovr.Table.Rows[i][1].ToString();
-                    if (pict != tt) return;
-                    {
-                        string yy = Tovr.Table.Rows[i][0].ToString();
-                        MessageBox.Show(yy);
-                    }
-                }
-            }
 
         }
 
@@ -753,6 +737,22 @@ namespace Pets
                + " INNER JOIN dbo.Status_Zakaza  ON dbo.Zakaz_tovara.Statysa_ID = dbo.Status_Zakaza.ID_Statysa where ID_Statysa = '" + comboBoxtol.SelectedValue.ToString() + "' ");
                 dataGridZakk.DataSource = Zay.Table.DefaultView;
             }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel5_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void Zakupka_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Glav gll = new Glav();
+            gll.Show();
         }
     }
 }
