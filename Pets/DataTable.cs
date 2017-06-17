@@ -20,8 +20,6 @@ namespace Pets
             {
 
                 this.sql = sql;
-
-
                 ConnectionClass ConCheck = new ConnectionClass();
                 RegistryKey DataBase_Connection = Registry.CurrentConfig;
                 RegistryKey Connection_Base_Party_Options = DataBase_Connection.CreateSubKey("DB_PARTY_OPTIOS");

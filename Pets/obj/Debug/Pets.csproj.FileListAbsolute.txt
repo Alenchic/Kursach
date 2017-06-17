@@ -16,3 +16,4 @@ C:\Users\Лёшка\documents\visual studio 2015\Projects\Pets\Pets\obj\Debug\Pe
 C:\Users\Лёшка\documents\visual studio 2015\Projects\Pets\Pets\obj\Debug\Pets.csproj.ResolveComReference.cache
 C:\Users\Лёшка\documents\visual studio 2015\Projects\Pets\Pets\obj\Debug\Pets.FormIzm.resources
 C:\Users\Лёшка\documents\visual studio 2015\Projects\Pets\Pets\obj\Debug\Pets.Formdel.resources
+C:\Users\Лёшка\documents\visual studio 2015\Projects\Pets\Pets\obj\Debug\Pets.Admin.resources

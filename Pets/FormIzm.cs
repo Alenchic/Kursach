@@ -93,7 +93,7 @@ namespace Pets
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ConnectionClass ConCheck = new ConnectionClass();
+             ConnectionClass ConCheck = new ConnectionClass();
             ConCheck.Connection_Options();
             SqlConnection connection = new SqlConnection(ConCheck.ConnectString);
             connection.Open();
@@ -127,7 +127,7 @@ namespace Pets
                                 command1.Parameters.AddWithValue("@Postavhik_ID", Gl.ID);
                                 command1.Parameters.AddWithValue("@Jivotnoe_ID", jiv);
                                 command1.Parameters.AddWithValue("@Firma", firm);
-                                command1.ExecuteNonQuery();
+                                command1.ExecuteNonQuery();  
                                 this.Close();
                                 break;
                             }

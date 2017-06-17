@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
-using System.Windows;
-using System.IO;
 using System.Data.SqlClient;
 using Microsoft.Win32;
 
@@ -236,7 +229,7 @@ namespace Pets
             regis.Controls.Add(Vhod_Button);
             // Создание кнопки "Закрыть"
             Cancel_Button.Top = Vhod_Button.Top + Vhod_Button.Height + 15;
-            Cancel_Button.Left = 5;
+            Cancel_Button.Left = 120;
             Cancel_Button.Width = 208;
             Cancel_Button.Height = 30;
             Cancel_Button.Text = "Выйти из авторизации";
@@ -250,27 +243,7 @@ namespace Pets
             //    Cancel_Button.MouseDown += this.Cancel_Button_MouseDown;
             //    Cancel_Button.MouseUp += this.Cancel_Button_MouseUp;
             regis.Controls.Add(Cancel_Button);
-
-
-            Registrate_Button.Top = Vhod_Button.Top + Vhod_Button.Height + 15;
-            Registrate_Button.Left = Cancel_Button.Left + Cancel_Button.Width + 5;
-            Registrate_Button.Width = 208;
-            Registrate_Button.Height = 30;
-            Registrate_Button.Text = "Зарегестрироваться";
-            Registrate_Button.BackColor = Color.White;
-            Registrate_Button.ForeColor = Color.Indigo;
-            Registrate_Button.FlatStyle = FlatStyle.Popup;
-            Registrate_Button.FlatAppearance.BorderSize = 10;
-            Registrate_Button.Font = new Font("Times New Roman", 12, FontStyle.Bold);
-            //Registrate_Button.MouseEnter += this.Registrate_Button_MouseEnter;
-            //    Registrate_Button.MouseLeave += this.Registrate_Button_MouseLeave;
-            //    Registrate_Button.MouseDown += this.Registrate_Button_MouseDown;
-            //    Registrate_Button.MouseUp += this.Registrate_Button_MouseUp;
-            //    Registrate_Button.Enabled = false;
-            Registrate_Button.Click += Registrate_Button_Click;
-            regis.Controls.Add(Registrate_Button);
-            //-----------------------------------------------------
-           
+            
             }
         public void Button_Click(object sender, EventArgs e)
         {
@@ -313,8 +286,18 @@ namespace Pets
                         this.Hide();
                         Registration_Window.Close();
                         connectionUser.Close();
-                      
+
                         break;
+                    case "Админ":
+                        Admin Admin = new Admin();
+                        Gl.sotr = USID;
+                        Admin.Show();
+                        this.Hide();
+                        Registration_Window.Close();
+                        connectionUser.Close();
+
+                        break;
+
                 }
                             
 
@@ -323,7 +306,7 @@ namespace Pets
             }
             catch
             {
-                MessageBox.Show("Введите коректный логин и пароль");
+                MessageBox.Show( );
             }
 
         }

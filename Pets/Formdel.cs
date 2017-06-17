@@ -52,14 +52,20 @@ namespace Pets
 
                     break;
                 case 3:
-
-                    SqlCommand command3 = new SqlCommand("dbo.dell_Postavhik", connection);
-                    command3.CommandType = CommandType.StoredProcedure;
-                    command3.Parameters.AddWithValue("@ID_Postavhik", Gl.ID);
-                    command3.ExecuteNonQuery();
-                    this.Close();
-
+                    try
+                    {
+                        SqlCommand command3 = new SqlCommand("dbo.dell_Postavhik", connection);
+                        command3.CommandType = CommandType.StoredProcedure;
+                        command3.Parameters.AddWithValue("@ID_Postavhik", Gl.ID);
+                        command3.ExecuteNonQuery();
+                        this.Close();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("У этого поставщика есть товары, удалите их");
+                    }
                     break;
+
                 case 4:
 
                     SqlCommand command4 = new SqlCommand("dbo.dell_Tovar", connection);

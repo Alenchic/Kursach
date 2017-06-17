@@ -1,14 +1,9 @@
-﻿using Microsoft.Win32;
+﻿
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Pets
@@ -55,9 +50,6 @@ namespace Pets
         string nametov;
         string edinica;
         string kol;
-
-       
-        
         private void button1_Click_1(object sender, EventArgs e)
         {
             dataGridView1.AutoResizeColumns();
@@ -79,11 +71,13 @@ namespace Pets
                     button5.Visible = true;
                     button8.Visible = false;
                     comboBoxizm.Visible = false;
+                    button1.Visible = true;
                     label5.Text = "Дата списания";
                     break;
                 case "Регистрация накладной":
                     dataGridView5.Visible = true;
                     button14.Visible = false;
+                    button1.Visible = false;
                     button5.Visible = false;
                     label5.Text = "Статус";
                     button8.Visible = true;
@@ -92,20 +86,6 @@ namespace Pets
                     spisaniepan.Location = new Point(5, 6);
                     break;
             }
-        }
-
-      
-
-        private void comboBoxpost_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //string s = comboBoxpost.Text;
-            //DataTableSQl Zay = new DataTableSQl("SELECT * FROM dbo.Tovar inner join dbo.Postavhik  ON dbo.Tovar.Postavhik_ID = dbo.Postavhik.ID_Postavhik Where  Postavhik.Nazvanie_organizacii = '" + s + "'");
-            //dataGridView1.DataSource = Zay.Table.DefaultView;
-        }
-
-        private void dataGridView3_SelectionChanged(object sender, EventArgs e)
-        {
-          
         }
 
         private void Sklad_Load(object sender, EventArgs e)
@@ -245,12 +225,10 @@ namespace Pets
                     if (dataGridView3[i, j].Value != null)
                     {
                         count++;
-                        //tovrid = dataGridView3[0, j].Value.ToString();
                         Gl.post = dataGridView3[5, j].Value.ToString();
                         Gl.summ = dataGridView3[1, j].Value.ToString();
                         Gl.ID = dataGridView3[0, j].Value.ToString();
                         Tovar(dataGridView3[3, j].Value.ToString());
-                        //MessageBox.Show(tovrid + namr);
                         Registraciya re = new Registraciya();
                         re.textBoxName.Text = namr;
                         re.ShowDialog();
